@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { countriesApi } from './services';
-import { Footer, Header, Card, Grid } from './components';
+import { Card, Grid } from './components';
 import Link from 'next/link';
 
 type Country = {
@@ -43,33 +43,27 @@ export default function Home() {
   if (error) return <div>{error}</div>;
 
   return (
-    <>
-      <Header />
-      <main className="flex-1">
-        <Grid>
-          {countries.map(
-            ({ cca3, flags, name, capital, region, population }, index) => {
-              const { svg: flag } = flags ?? {};
-              const { common: countryName } = name ?? {};
-              const [capitalName] = capital ?? {};
+    <Grid>
+      {countries.map(
+        ({ cca3, flags, name, capital, region, population }, index) => {
+          const { svg: flag } = flags ?? {};
+          const { common: countryName } = name ?? {};
+          const [capitalName] = capital ?? {};
 
-              return (
-                <Link key={cca3} href={`/country/${cca3}`}>
-                  <Card
-                    index={index}
-                    flag={flag}
-                    name={countryName}
-                    capital={capitalName}
-                    region={region}
-                    population={population}
-                  />
-                </Link>
-              );
-            },
-          )}
-        </Grid>
-      </main>
-      <Footer />
-    </>
+          return (
+            <Link key={cca3} href={`/country/${cca3}`}>
+              <Card
+                index={index}
+                flag={flag}
+                name={countryName}
+                capital={capitalName}
+                region={region}
+                population={population}
+              />
+            </Link>
+          );
+        },
+      )}
+    </Grid>
   );
 }
