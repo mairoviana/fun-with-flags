@@ -1,13 +1,47 @@
+'use client';
+
+import { countriesApi } from '@/app/services';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
-type Props = {
-  params: Promise<{ id: string }>;
-};
-
-export default async function Country({ params }: Props) {
-  const id = (await params).id;
+export default function Country() {
   const name = 'Brazil';
+  const params = useParams();
+
+  const [id, setId] = useState<string | null>(null);
+  const [country, setCountry] = useState<Country>();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (params?.id && params.id !== id) {
+      setId(params.id as string);
+    }
+  }, [params, id]);
+
+  useEffect(() => {
+    if (id === null) {
+      return;
+    }
+    const fetchCountries = async () => {
+      const [response, error] = await countriesApi.getCountry(id);
+      setLoading(false);
+
+      if (error) {
+        setError(error);
+        return;
+      }
+
+      setCountry(response);
+    };
+    fetchCountries();
+  }, [id]);
+
+  if (loading) return <div>Carregando...</div>;
+  if (error) return <div>{error}</div>;
+
   return (
     <>
       <div className="mb-8">
