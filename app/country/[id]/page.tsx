@@ -1,6 +1,7 @@
 'use client';
 
 import { countriesApi } from '@/app/services';
+import { formatNumber } from '@/app/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -13,6 +14,7 @@ type DetailedCountry = {
   };
   name: {
     common: string;
+    official: string;
   };
   capital: string[];
   region: string;
@@ -71,7 +73,7 @@ export default function Country() {
   } = country ?? {};
 
   const { svg: flag } = flags ?? {};
-  const { common: countryName } = name ?? {};
+  const { common: countryName, official: officialName } = name ?? {};
   const [capitalName] = capital ?? '';
   const languageNames = Object.values(languages ?? {}).join(', ');
   const currencieName = Object.values(currencies ?? {})
@@ -107,13 +109,18 @@ export default function Country() {
           </h2>
           <div className="space-y-2">
             <div>
+              <span className="font-semibold">Official Name:</span>{' '}
+              {officialName}
+            </div>
+            <div>
               <span className="font-semibold">Capital:</span> {capitalName}
             </div>
             <div>
               <span className="font-semibold">Region:</span> {region}
             </div>
             <div>
-              <span className="font-semibold">Population:</span> {population}
+              <span className="font-semibold">Population:</span>{' '}
+              {formatNumber(population)}
             </div>
             <div>
               <span className="font-semibold">Languages:</span> {languageNames}
