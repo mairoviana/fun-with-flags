@@ -78,7 +78,7 @@ export default function Country() {
     .map(({ name, symbol }) => `${name} ${symbol}`)
     .join(', ');
   const [topLevelDomain] = tld ?? [];
-  const bordersIds = borders?.join(', ') ?? '';
+  const bordersIds = borders ?? [];
 
   return (
     <>
@@ -106,33 +106,36 @@ export default function Country() {
             {countryName} {id}
           </h2>
           <div className="space-y-2">
-            <div className="flex items-center gap-1">
-              <span className="font-semibold">Capital:</span>
-              <span>{capitalName}</span>
+            <div>
+              <span className="font-semibold">Capital:</span> {capitalName}
             </div>
-            <div className="flex items-center gap-1">
-              <span className="font-semibold">Region:</span>
-              <span>{region}</span>
+            <div>
+              <span className="font-semibold">Region:</span> {region}
             </div>
-            <div className="flex items-center gap-1">
-              <span className="font-semibold">Population:</span>
-              <span>{population}</span>
+            <div>
+              <span className="font-semibold">Population:</span> {population}
             </div>
-            <div className="flex items-center gap-1">
-              <span className="font-semibold">Languages:</span>
-              <span>{languageNames}</span>
+            <div>
+              <span className="font-semibold">Languages:</span> {languageNames}
             </div>
-            <div className="flex items-center gap-1">
-              <span className="font-semibold">Currency:</span>
-              <span>{currencieName}</span>
+            <div>
+              <span className="font-semibold">Currency:</span> {currencieName}
             </div>
-            <div className="flex items-center gap-1">
-              <span className="font-semibold">Top Level Domain:</span>
-              <span>{topLevelDomain}</span>
+            <div>
+              <span className="font-semibold">Top Level Domain:</span>{' '}
+              {topLevelDomain}
             </div>
-            <div className="flex items-center gap-1">
-              <span className="font-semibold">Borders:</span>
-              <span>{bordersIds}</span>
+            <div className="max-w-80">
+              <span className="font-semibold">Borders:</span>{' '}
+              {bordersIds.length
+                ? bordersIds.map((borderId) => (
+                    <Link key={borderId} href={`/country/${borderId}`}>
+                      <button className="cursor-pointer bg-gray-200 hover:bg-gray-300 mb-1.5 mr-1.5 px-1.5 py-0.5 rounded text-xs">
+                        {borderId}
+                      </button>
+                    </Link>
+                  ))
+                : 'None'}
             </div>
           </div>
         </div>
