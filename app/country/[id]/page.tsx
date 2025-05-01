@@ -1,5 +1,6 @@
 'use client';
 
+import { Error, Loading } from '@/app/components';
 import { countriesApi } from '@/app/services';
 import { formatNumber } from '@/app/utils';
 import Image from 'next/image';
@@ -57,8 +58,8 @@ export default function Country() {
     fetchCountries();
   }, [id]);
 
-  if (loading) return <div>Carregando...</div>;
-  if (error) return <div>{error}</div>;
+  if (loading) return <Loading text={'Visiting country...'} />;
+  if (error) return <Error text={error} />;
 
   const {
     flags,

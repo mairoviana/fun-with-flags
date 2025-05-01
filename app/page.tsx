@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { countriesApi } from './services';
-import { Card, Grid, Search, Select } from './components';
+import { Card, Error, Grid, Loading, Search, Select } from './components';
 import Link from 'next/link';
 
 type Country = {
@@ -40,8 +40,8 @@ export default function Home() {
     fetchCountries();
   }, []);
 
-  if (loading) return <div>Carregando...</div>;
-  if (error) return <div>{error}</div>;
+  if (loading) return <Loading text="Discovering countries..." />;
+  if (error) return <Error text={error} />;
 
   const regions = [
     'All regions',
